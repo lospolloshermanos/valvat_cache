@@ -1,14 +1,13 @@
 # ValvatCache
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/valvat_cache`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+ValvatCache is a simple cache for Valvat (https://github.com/yolk/valvat_cache)
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
+gem 'valvat'
 gem 'valvat_cache'
 ```
 
@@ -22,7 +21,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+Valvat.Lookup.cache_path = 'path/to/cache/file.json'
+```
 
 ## Development
 
