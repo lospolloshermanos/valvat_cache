@@ -22,6 +22,7 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
+Valvat.Lookup.expiration_days = 7 # Optional, defaults to 7
 Valvat.Lookup.cache_path = 'path/to/cache/file.json'
 ```
 
