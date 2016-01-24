@@ -18,6 +18,7 @@ class Valvat::Lookup
     end
 
     def cache_path=(path)
+      @@lock ||= Mutex.new
       if !path.nil?
         if File.file?(path)
           self.cache = JSON.parse(File.open(path, 'r') { |f| f.read }, symbolize_names: true)
@@ -30,6 +31,10 @@ class Valvat::Lookup
 
       @@cache_path = path
     end
+
+    def semaphore
+      @@lock
+    end
   end
 
   private
@@ -38,7 +43,11 @@ class Valvat::Lookup
     if self.class.cache[vat.raw.to_sym].nil? || (Date.today - self.class.cache[vat.raw.to_sym][:request_date]) > 7
       self.class.cache[vat.raw.to_sym] = request.perform(self.class.client)
       begin
-        File.open(self.class.cache_path, 'w') { |f| f.write self.class.cache.to_json } if self.class.cache_path
+        if self.class.cache_path
+          self.class.semaphore.synchronize do
+            File.open(self.class.cache_path, 'w') { |f| f.write self.class.cache.to_json }
+          end
+        end
       rescue Exception
       end
     end
