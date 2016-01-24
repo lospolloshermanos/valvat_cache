@@ -19,10 +19,21 @@ class Valvat::Lookup
 
     def cache_path=(path)
       @@lock ||= Mutex.new
+      changed = false
+
       if !path.nil?
         if File.file?(path)
           self.cache = JSON.parse(File.open(path, 'r') { |f| f.read }, symbolize_names: true)
-          self.cache.each { |_k, v| v[:request_date] = Date.parse v[:request_date] }
+          self.cache.each do |k, v|
+            v[:request_date] = Date.parse v[:request_date]
+
+            if (Date.today - v[:request_date]) > self.expiration_days
+              changed = true
+              self.cache.delete(k)
+            end
+          end
+
+          File.open(path, 'w') { |f| f.write(cache.to_json) } if changed
         else
           self.cache = Hash.new.to_json
           File.open(path, 'w') { |f| f.write(cache) }
@@ -30,6 +41,14 @@ class Valvat::Lookup
       end
 
       @@cache_path = path
+    end
+
+    def expiration_days
+      @@expiration_date ||= 7
+    end
+
+    def expiration_days=(days)
+      @@expiration_date = days
     end
 
     def semaphore
@@ -40,7 +59,7 @@ class Valvat::Lookup
   private
 
   def response
-    if self.class.cache[vat.raw.to_sym].nil? || (Date.today - self.class.cache[vat.raw.to_sym][:request_date]) > 7
+    if self.class.cache[vat.raw.to_sym].nil? || (Date.today - self.class.cache[vat.raw.to_sym][:request_date]) > self.class.expiration_days
       self.class.cache[vat.raw.to_sym] = request.perform(self.class.client)
       begin
         if self.class.cache_path
