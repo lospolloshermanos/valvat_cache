@@ -59,7 +59,7 @@ class Valvat::Lookup
   private
 
   def response
-    if self.class.cache[vat.raw.to_sym].nil? || (Date.today - self.class.cache[vat.raw.to_sym][:request_date]) > self.class.expiration_days
+    if !options[:requester_vat].nil? || self.class.cache[vat.raw.to_sym].nil? || (Date.today - self.class.cache[vat.raw.to_sym][:request_date]) > self.class.expiration_days
       self.class.cache[vat.raw.to_sym] = request.perform(self.class.client)
       begin
         if self.class.cache_path

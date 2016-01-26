@@ -69,6 +69,14 @@ describe ValvatCache do
           expect(Valvat::Lookup.cache[:DE258071574][:valid]).to be false
           expect(Valvat::Lookup.validate('DE258071574')).to be false
         end
+
+        it 'should add new entries' do
+          data = Valvat.new('DE258071573').exists?
+          expect(Valvat::Lookup.cache[:DE258071573][:valid]).to be true
+
+          data = Valvat.new('DE258071573').exists?(requester_vat: 'IE6388047V')
+          expect(data[:request_identifier].nil?).to be false
+        end
       end
 
       context 'with expired entries' do
