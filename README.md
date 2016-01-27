@@ -1,7 +1,7 @@
 # ValvatCache
 [ ![Codeship Status for lospolloshermanos/valvat_cache](https://codeship.com/projects/a94bdd30-a713-0133-0a61-721682b6b155/status?branch=master)](https://codeship.com/projects/130128)
 
-ValvatCache is a simple cache for Valvat (https://github.com/yolk/valvat_cache)
+ValvatCache is a simple cache for Valvat (https://github.com/yolk/valvat)
 
 ## Installation
 
