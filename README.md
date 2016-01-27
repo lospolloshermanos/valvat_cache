@@ -4,7 +4,7 @@ ValvatCache is a simple cache for Valvat (https://github.com/yolk/valvat_cache)
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this lines to your application's Gemfile:
 
 ```ruby
 gem 'valvat'
