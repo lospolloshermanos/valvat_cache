@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["xxswingxx"]
   spec.email         = ["vidadelaempresa@gmail.com"]
 
-  spec.summary       = %q{A cache for valvat: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{Valvat_cache caches in a json file results of the VIES validation keeping it a couple of weeks}
-  spec.homepage      = ""
+  spec.summary       = %q{A cache for valvat (https://github.com/yolk/valvat)}
+  spec.description   = %q{Valvat_cache caches in a json file results of the valvat VIES validation keeping it a couple of days}
+  spec.homepage      = "https://github.com/lospolloshermanos/valvat_cache"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
